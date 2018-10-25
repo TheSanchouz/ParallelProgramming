@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 		
 		for (int i = 0; i < (procRank + count) % procNum; i++)
 		{
-			offsetCols += i < addictiveCols ? everyHasRows + 1 : evereHasRows;
+			offsetCols += i < additiveCols ? everyHasCols + 1 : everyHasCols;
 		}
 		    
 		//скалярное произведение
