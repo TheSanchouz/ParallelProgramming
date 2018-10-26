@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
 #include <random>
 #include <iomanip>
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 		}
 
 
-		//if (showMatrix)
+		if (showMatrix)
 		{
 			//вывод матриц на экран
 			std::cout << "Matrix A with size " << rowsA << "x" << colsA_rowsB << std::endl;
@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
 			printMatrix(transMatrixB, colsB, colsA_rowsB);
 		}
-		//else
+		else
 		{
 			std::cout << "Matrix A with size " << rowsA << "x" << colsA_rowsB << std::endl;
 			std::cout << "Matrix B with size " << colsA_rowsB << "x" << colsB << std::endl;
@@ -275,10 +275,8 @@ int main(int argc, char *argv[])
 			//проблема - как определять сколько столбцов приходит с другого процесса?
 			//ведь они тоже обмениваются, и мы явно не знаем, что-когда приходит, как это сделать?
 			//это по идее должно работать
-			//int prev = (prevProc - count) < 0 ? procNum - count : (prevProc - count) % procNum;
-			//int prev = (prevProc - count) < 0 ? (procNum + count + 1) % procNum : (prevProc - count) % procNum;
-			int prev = mod(prevProc - count, procNum);
- 			int newReceiveCountCols = prev < additiveCols ? everyHasCols + 1 : everyHasCols;
+ 			int newReceiveCountCols = mod(prevProc - count, procNum) < additiveCols ? everyHasCols + 1 : everyHasCols;
+
 			//std::cout << "for process " << procRank << ", and count = " << count << ", newRCC = " << newReceiveCountCols << std::endl;
 
 			//выделение нового буфера для приема сообщения
@@ -299,6 +297,10 @@ int main(int argc, char *argv[])
 	//сбор строк результирующей матрицы
 	MPI_Gatherv(bufC, receiveCountRows * colsB, MPI_INT, matrixC, sizeOfReceiveRowsElem, displasmentsReceive, MPI_INT, root, MPI_COMM_WORLD);
 
+	delete[] bufA;
+	delete[] bufB;
+	delete[] bufC;
+
 	time = MPI_Wtime() - time;
 
 	if (procRank == root)
@@ -314,7 +316,7 @@ int main(int argc, char *argv[])
 		std::cout << "Time = " << time << std::endl;
 		std::cout << "Matrix C = A * B with size " << rowsA << "x" << colsB << std::endl;
 
-		//if (showMatrix)
+		if (showMatrix)
 		{
 			printMatrix(matrixC, rowsA, colsB);
 		}
