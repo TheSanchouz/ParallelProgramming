@@ -97,6 +97,17 @@ int main(int argc, char *argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
 	MPI_Comm_size(MPI_COMM_WORLD, &procNum);
 
+	if (procNum > rowsA)
+	{
+		if (procRank == root)
+		{
+			std::cout << "Error! Enter the number of process less than the number of rows of matrix A!" << std::endl;
+		}
+
+		MPI_Finalize();
+		return -4;
+	}
+
 	if (procRank == root)
 	{
 		//выделение памяти под матрицы
@@ -127,10 +138,9 @@ int main(int argc, char *argv[])
 			showMatrix = true;
 		}
 
-
+		//вывод матриц на экран
 		if (showMatrix)
 		{
-			//вывод матриц на экран
 			std::cout << "Matrix A with size " << rowsA << "x" << colsA_rowsB << std::endl;
 			printMatrix(matrixA, rowsA, colsA_rowsB);
 			std::cout << std::endl;
@@ -139,7 +149,7 @@ int main(int argc, char *argv[])
 			printMatrix(matrixB, colsA_rowsB, colsB);
 			std::cout << std::endl;
 
-			printMatrix(transMatrixB, colsB, colsA_rowsB);
+			//printMatrix(transMatrixB, colsB, colsA_rowsB);
 		}
 		else
 		{
