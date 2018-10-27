@@ -249,11 +249,6 @@ int main(int argc, char *argv[])
 	for (int count = 0; count < procNum; count++)
 	{
 		int offsetCols = 0;
-		/*for (int i = 0; i < (procRank - count) % procNum; i++)
-		{
-			offsetCols += i < additiveCols ? everyHasCols + 1 : everyHasCols;
-		}*/
-
 		for (int i = 0; i < mod(procRank - count, procNum); i++)
 		{
 			offsetCols += i < additiveCols ? everyHasCols + 1 : everyHasCols;
