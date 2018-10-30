@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
 	double time;
 
 	MPI_Status status;
+	MPI_Request request;
 	int procRank;
 	int procNum;
 
@@ -97,11 +98,23 @@ int main(int argc, char *argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
 	MPI_Comm_size(MPI_COMM_WORLD, &procNum);
 
+
 	if (procNum > rowsA)
 	{
 		if (procRank == root)
 		{
 			std::cout << "Error! Enter the number of process less than the number of rows of matrix A!" << std::endl;
+		}
+
+		MPI_Finalize();
+		return -4;
+	}
+
+	if (procNum > colsB)
+	{
+		if (procRank == root)
+		{
+			std::cout << "Error! Enter the number of process less than the number of cols of matrix B!" << std::endl;
 		}
 
 		MPI_Finalize();
@@ -157,6 +170,8 @@ int main(int argc, char *argv[])
 			std::cout << "Matrix B with size " << colsA_rowsB << "x" << colsB << std::endl;
 		}
 	}
+
+	time = MPI_Wtime();
 
 	//определение кол-ва строк и столбцов, по крайней мере минимальное, каждого процесса
 	int everyHasRows = rowsA / procNum;
@@ -221,7 +236,7 @@ int main(int argc, char *argv[])
 	}
 
 
-	time = MPI_Wtime();
+	//time = MPI_Wtime();
 
 	//определение числа получаемых строк и столбцов для процесса
 	//если ранг процесса меньше чем число доп.строк и/или столбцов, то добавим для текущего процесса одну доп.строку и/или столбец
@@ -234,10 +249,11 @@ int main(int argc, char *argv[])
 
 	//std::cout << "I am process - " << procRank << ", bufC[" << receiveCountRows * colsB << "]" << std::endl;
 
+	//рассылка строк и столбцов
 	MPI_Scatterv(matrixA, sizeOfSendRowsElem, displasmentsRowsElem, MPI_INT, bufA, receiveCountRows * colsA_rowsB, MPI_INT, root, MPI_COMM_WORLD);
 	MPI_Scatterv(transMatrixB, sizeOfSendColsElem, displasmentsColsElem, MPI_INT, bufB, receiveCountCols * colsA_rowsB, MPI_INT, root, MPI_COMM_WORLD);
 
-	//определение предыдущего и следующего процесса точно верны
+	//определение предыдущего и следующего процесса
 	int prevProc = mod(procRank - 1, procNum);
 	int nextProc = mod(procRank + 1, procNum);
 
@@ -245,7 +261,6 @@ int main(int argc, char *argv[])
 		<< "prevProc - " << prevProc << ", nextProc - " << nextProc << std::endl;*/
 
 
-	//в цикле надо разобраться с count
 	for (int count = 0; count < procNum; count++)
 	{
 		int offsetCols = 0;
@@ -261,9 +276,6 @@ int main(int argc, char *argv[])
 		{
 			for (int j = 0; j < receiveCountCols; j++)
 			{
-				//здесь по идее каким-то образом должен участвовать count
-				//обращение к элементам скорее всего неверно)
-
 				bufC[i * colsB + j + offsetCols] = scalarProduct(bufA + i * colsA_rowsB, bufB + j * colsA_rowsB, colsA_rowsB);
 				//std::cout << "For process " << procRank << " [" << i * colsB << ", " << j + offsetCols << "]" 
 				//	<< " result = " << scalarProduct(bufA + i * colsA_rowsB, bufB + j * colsA_rowsB, colsA_rowsB) << std::endl;
@@ -277,9 +289,6 @@ int main(int argc, char *argv[])
 		//обмен происходит между вычислением скалярного произведения
 		if (count < procNum - 1)
 		{
-			//проблема - как определять сколько столбцов приходит с другого процесса?
-			//ведь они тоже обмениваются, и мы явно не знаем, что-когда приходит, как это сделать?
-			//это по идее должно работать
  			int newReceiveCountCols = mod(prevProc - count, procNum) < additiveCols ? everyHasCols + 1 : everyHasCols;
 
 			//std::cout << "for process " << procRank << ", and count = " << count << ", newRCC = " << newReceiveCountCols << std::endl;
@@ -302,11 +311,11 @@ int main(int argc, char *argv[])
 	//сбор строк результирующей матрицы
 	MPI_Gatherv(bufC, receiveCountRows * colsB, MPI_INT, matrixC, sizeOfReceiveRowsElem, displasmentsReceive, MPI_INT, root, MPI_COMM_WORLD);
 
+	time = MPI_Wtime() - time;
+
 	delete[] bufA;
 	delete[] bufB;
 	delete[] bufC;
-
-	time = MPI_Wtime() - time;
 
 	if (procRank == root)
 	{
