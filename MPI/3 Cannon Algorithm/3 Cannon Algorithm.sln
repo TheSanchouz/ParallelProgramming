@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3 Cannon Algorithm", "3 Cannon Algorithm\3 Cannon Algorithm.vcxproj", "{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Debug|x64.ActiveCfg = Debug|x64
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Debug|x64.Build.0 = Debug|x64
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Debug|x86.ActiveCfg = Debug|Win32
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Debug|x86.Build.0 = Debug|Win32
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Release|x64.ActiveCfg = Release|x64
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Release|x64.Build.0 = Release|x64
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Release|x86.ActiveCfg = Release|Win32
+		{0DA9345C-F27E-45F4-8B62-E4F9040BDD98}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {96AEB75B-C0CE-4907-B639-9DF36044F210}
+	EndGlobalSection
+EndGlobal

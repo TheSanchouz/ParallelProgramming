@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <rdmgr>
+  <timestamp type="u64_t">1543384245</timestamp>
+  <hostname>LAPTOP-KUD2KEG1</hostname>
+  <os>windows</os>
+  <product>Intel® VTune™ Amplifier 2019 Update 1</product>
+  <buildNumber type="s32_t">579888</buildNumber>
+  <logicalCPUCount type="s32_t">4</logicalCPUCount>
+  <physicalCoreCount type="s32_t">2</physicalCoreCount>
+  <CPUFrequency type="s64_t">2400000000</CPUFrequency>
+  <CPUFamily type="s32_t">6</CPUFamily>
+  <CPUModel type="s32_t">78</CPUModel>
+  <CPUStepping type="s32_t">3</CPUStepping>
+  <CPUBrandName>Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz</CPUBrandName>
+  <isa>avx2</isa>
+  <collectionTimeBegin type="u64_t">1543384245</collectionTimeBegin>
+  <collectionTimeEnd type="u64_t">1543384249</collectionTimeEnd>
+  <variables>
+   <at>ue</at>
+  </variables>
+ </rdmgr>
+</root>

@@ -1,0 +1,18 @@
+-r
+D:\Visual Projects\ParallelProgramming\MPI\3 Cannon Algorithm PSM\3 Cannon Algorithm PSM\My Amplifier Results - 3 Cannon Algorithm PSM\r000hs
+--stack-stitching
+--data-limit-mb=1000
+--disk-space-limit=0
+--mrte-type=java,dotnet,python
+--itt-config=frame
+--itt-config=task,event,counter
+--stackwalk=offline
+--mrte-mode=auto
+--type=cpu:counters:nostack
+--type=cpu:stack
+--interval=10
+--event-config=CPU_CLK_UNHALTED.THREAD:sa=2300000,CPU_CLK_UNHALTED.REF_TSC:sa=2300000,INST_RETIRED.ANY:sa=2300000,CPU_CLK_UNHALTED.REF_XCLK:sa=100003,CPU_CLK_UNHALTED.ONE_THREAD_ACTIVE:sa=100003,FP_ARITH_INST_RETIRED.SCALAR_SINGLE:sa=2000003,FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE:sa=2000003,FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE:sa=2000003,FP_ARITH_INST_RETIRED.SCALAR_DOUBLE:sa=2000003,FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE:sa=2000003,FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE:sa=2000003,UOPS_EXECUTED.X87:sa=2000003,UOPS_RETIRED.RETIRE_SLOTS:sa=2000003,UOPS_EXECUTED.THREAD:sa=2000003,UOPS_RETIRED.RETIRE_SLOTS:sa=2000003
+--collector=emon
+--count
+--
+D:\Visual Projects\ParallelProgramming\MPI\3 Cannon Algorithm PSM\x64\Release\3 Cannon Algorithm PSM.exe
