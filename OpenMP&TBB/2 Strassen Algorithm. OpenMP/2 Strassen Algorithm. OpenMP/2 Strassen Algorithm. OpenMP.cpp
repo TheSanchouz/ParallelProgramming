@@ -1,8 +1,7 @@
-﻿// 1 Strassen Algorithm. Sequential.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+﻿// 2 Strassen Algorithm. OpenMP.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
 #include "pch.h"
-#include <omp.h>
 #include "Matrix.h"
 #include <iostream>
 #include <iomanip>

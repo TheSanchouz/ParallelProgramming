@@ -1,4 +1,5 @@
 #pragma once
+#include <omp.h>
 #include <random>
 #include <iomanip>
 #include <iostream>
@@ -58,18 +59,48 @@ private:
 		lhs.Split4Strassen(a11, a12, a21, a22);
 		rhs.Split4Strassen(b11, b12, b21, b22);
 
-		Matrix p1 = MultiplyStrassen(a11 + a22, b11 + b22,	size);
-		Matrix p2 = MultiplyStrassen(a21 + a22, b11,		size);
-		Matrix p3 = MultiplyStrassen(a11,		b12 - b22,	size);
-		Matrix p4 = MultiplyStrassen(a22,		b21 - b11,	size);
-		Matrix p5 = MultiplyStrassen(a11 + a12, b22,		size);
-		Matrix p6 = MultiplyStrassen(a21 - a11, b11 + b12,	size);
-		Matrix p7 = MultiplyStrassen(a12 - a22, b21 + b22,	size);
+		Matrix p1(size, size);
+		Matrix p2(size, size);
+		Matrix p3(size, size);
+		Matrix p4(size, size);
+		Matrix p5(size, size);
+		Matrix p6(size, size);
+		Matrix p7(size, size);
 
-		Matrix c11 = p1 + p4 - p5 + p7;
-		Matrix c12 = p3 + p5;
-		Matrix c21 = p2 + p4;
-		Matrix c22 = p1 - p2 + p3 + p6;
+		Matrix c11(size, size);
+		Matrix c12(size, size);
+		Matrix c21(size, size);
+		Matrix c22(size, size);
+
+		#pragma omp parallel sections
+		{
+			#pragma omp section
+			p1 = MultiplyStrassen(a11 + a22, b11 + b22, size);
+			#pragma omp section
+			p2 = MultiplyStrassen(a21 + a22, b11, size);
+			#pragma omp section
+			p3 = MultiplyStrassen(a11, b12 - b22, size);
+			#pragma omp section
+			p4 = MultiplyStrassen(a22, b21 - b11, size);
+			#pragma omp section
+			p5 = MultiplyStrassen(a11 + a12, b22, size);
+			#pragma omp section
+			p6 = MultiplyStrassen(a21 - a11, b11 + b12, size);
+			#pragma omp section
+			p7 = MultiplyStrassen(a12 - a22, b21 + b22, size);
+		}
+		
+		#pragma omp parallel sections
+		{
+			#pragma omp section
+			c11 = p1 + p4 - p5 + p7;
+			#pragma omp section
+			c12 = p3 + p5;
+			#pragma omp section
+			c21 = p2 + p4;
+			#pragma omp section
+			c22 = p1 - p2 + p3 + p6;
+		}
 
 		return Collect4Strassen(c11, c12, c21, c22);
 	}
@@ -245,7 +276,7 @@ public:
 					{
 						scalarProduct += this->matrix[i][k] * transposedCol[k];
 					}
-					
+
 					res.matrix[i][j] = scalarProduct;
 				}
 			}
